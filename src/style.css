@@ -1,0 +1,334 @@
+/* ==========================================================================
+   1. DEFINIÇÃO DAS VARIÁVEIS DE TEMA (CORES)
+   ========================================================================== */
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  --color-primary: #6b7afc;
+  --color-danger: #e53e3e;
+  --color-warning: #f6ad55;
+  --color-success: #48bb78;
+  --color-secondary: #6c757d;
+  
+  --text-color: rgba(255, 255, 255, 0.87);
+  --text-color-muted: #9ca3af;
+  --bg-color: #111827;
+  --surface-color: #1f2937;
+  --border-color: #4b5563;
+
+  color-scheme: dark;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
+
+.light-theme {
+  --color-primary: #4f46e5;
+  --color-danger: #dc2626;
+  --color-warning: #f59e0b;
+  --color-success: #16a34a;
+  --color-secondary: #6b7280;
+
+  --text-color: #1f2937;
+  --text-color-muted: #6b7280;
+  --bg-color: #f3f4f6;
+  --surface-color: #ffffff;
+  --border-color: #d1d5db;
+
+  color-scheme: light;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
+
+/* ==========================================================================
+   2. ESTILOS GLOBAIS E RESETS
+   ========================================================================== */
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+html, body, #app { height: 100%; width: 100%; margin: 0; padding: 0; }
+body { transition: background-color 0.2s, color 0.2s; }
+hr { margin: 2rem 0; border: 0; border-top: 1px solid var(--border-color); }
+
+/* ==========================================================================
+   3. TIPOGRAFIA
+   ========================================================================== */
+h1, h2, h3, h4 { color: var(--text-color); margin-top: 0; }
+h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+p { color: var(--text-color-muted); margin-top: 0; }
+.page-header { margin-bottom: 2rem; }
+.page-header h1 + p { margin-top: -0.25rem; }
+
+/* ==========================================================================
+   4. BOTÕES (Sistema Unificado)
+   ========================================================================== */
+.btn {
+  display: inline-block;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 0.9em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+.btn:hover { opacity: 0.9; }
+.btn:disabled { background-color: var(--border-color); cursor: not-allowed; opacity: 0.7; }
+
+.btn-toggle {
+  min-width: 110px;
+  text-align: center;
+}
+
+.btn-primary { background-color: var(--color-primary); color: white; }
+.btn-danger { background-color: var(--color-danger); color: white; }
+.btn-success { background-color: var(--color-success); color: white; }
+.btn-secondary { background-color: var(--color-secondary); color: white; }
+.btn-warning { background-color: var(--color-warning); color: #1f2937; }
+.btn-disable { background-color: var(--color-warning); color: #1f2937;}
+.btn-enable { background-color: var(--color-success); color: white; }
+
+/* ==========================================================================
+   5. FORMULÁRIOS
+   ========================================================================== */
+input, select, textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  border-radius: 6px;
+  font-size: 1em;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
+}
+label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9em; }
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.form-container, .filter-bar {
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-color);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-end;
+}
+.form-container > *, .filter-bar > * { flex: 1 1 200px; min-width: 180px; }
+.form-container button, .filter-bar button { flex-grow: 0; }
+
+.centered-form-container {
+  max-width: 450px;
+  margin: 100px auto;
+  padding: 2.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--surface-color);
+}
+.centered-form-container h1, .centered-form-container h2 { text-align: center; }
+.centered-form-container h2 { font-size: 1rem; font-weight: 400; margin-bottom: 2rem; }
+.centered-form-container .form-group { margin-bottom: 1rem; }
+.centered-form-container button { width: 100%; padding: 0.8rem; }
+
+/* ==========================================================================
+   6. TABELAS (VERSÃO FINAL E ROBUSTA)
+   ========================================================================== */
+.table-responsive-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  /* Garante que o fundo do wrapper seja da cor da superfície, como uma camada de segurança */
+  background-color: var(--surface-color);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  min-width: 800px;
+  /* O fundo da tabela em si é removido para evitar conflitos */
+  background-color: transparent;
+}
+
+.table-responsive-wrapper table {
+  border: none;
+  border-radius: 0; 
+}
+
+/* MUDANÇA PRINCIPAL: O fundo agora é aplicado diretamente nas células */
+th, td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+  background-color: var(--surface-color); /* <-- FUNDO APLICADO AQUI */
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+/* Esta regra sobrescreve o fundo para o cabeçalho, mantendo-o mais escuro */
+thead th {
+  width: 100%;
+  background-color: var(--bg-color);
+  font-weight: 600;
+  /* Garante que o cabeçalho fique "preso" no topo durante a rolagem */
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+tbody tr:last-child td { 
+  border-bottom: none; 
+}
+
+/* A regra de hover agora se aplica às CÉLULAS da linha, não à linha inteira */
+tbody tr:hover td { 
+  background-color: rgba(255, 255, 255, 0.05); 
+}
+
+.actions-cell { 
+  display: flex; 
+  gap: 0.5rem; 
+  align-items: center; 
+}
+.actions-cell .btn, .actions-cell a.btn { 
+  padding: 0.4rem 0.8rem; 
+  font-size: 0.85em; 
+}
+
+.col-nome {
+  width: 50%; /* Faz a coluna 'Nome' ocupar 60% do espaço da tabela */
+}
+
+.col-status {
+  width: 15%; /* Faz a coluna 'Status' ocupar 20% do espaço da tabela */
+}
+
+.col-acoes {
+  width: 35%; /* Faz a coluna 'Ações' ocupar 20% do espaço da tabela */
+}
+
+
+
+.inactive-row td { 
+  color: var(--text-color-muted); 
+  text-decoration: line-through; 
+}
+.inactive-row:hover td {
+  /* Mantém o fundo do hover um pouco diferente para linhas inativas */
+  background-color: rgba(108, 117, 125, 0.15);
+}
+.inactive-row .btn.btn-primary { 
+  background-color: var(--color-secondary); 
+  cursor: not-allowed; 
+}
+/* ==========================================================================
+   7. MENSAGENS E NOTIFICAÇÕES
+   ========================================================================== */
+.loading-message { text-align: center; padding: 2rem; color: var(--text-color-muted); }
+.no-results-message { text-align: center; padding: 2rem; color: var(--text-color-muted); }
+
+/* ==========================================================================
+   8. COMPONENTES ESPECÍFICOS E UTILITÁRIOS
+   ========================================================================== */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.pagination-controls button {
+  padding: 0.5rem 1rem;
+}
+
+/* ==========================================================================
+   9. AJUSTES DE RESPONSIVIDADE (MEDIA QUERIES)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+  .sidebar.is-open {
+    transform: translateX(0);
+  }
+  .main-content {
+    padding: 1.5rem 1rem;
+  }
+  .menu-toggle {
+    display: block;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    border-radius: 6px;
+  }
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  }
+  .overlay.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+  h1 {
+    font-size: 1.75rem;
+  }
+  .filter-bar, .form-container {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .menu-toggle {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   10. ESTILOS ADICIONAIS
+   ========================================================================== */
+.inline-edit-input {
+  width: 100%;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.9em;
+  box-sizing: border-box;
+  border: 1px solid var(--color-primary);
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  border-radius: 4px;
+}
+.inline-edit-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
+}
+/* A CHAVE EXTRA QUE ESTAVA AQUI FOI REMOVIDA */
