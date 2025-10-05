@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useAuthStore } from '../stores/authStore';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:3000/api',
+   baseURL: import.meta.env.VITE_API_BASE_URL + '/api',
 });
 
 // Interceptor de Requisição (A Solução para o Erro 401)
