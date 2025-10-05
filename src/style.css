@@ -266,6 +266,24 @@ tbody tr:hover td {
     z-index: 1000;
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
+    overflow-y: auto;
+  }
+  
+  /* Diminui o espaço abaixo do título "CVLI" */
+  .sidebar h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Diminui a fonte e o espaçamento vertical dos links */
+  .sidebar nav a {
+    font-size: 0.9em;
+    padding: 0.4rem 1rem;
+  }
+
+  /* Diminui o espaçamento da seção de administrador */
+  .admin-section {
+    margin-top: 1rem;
+    gap: 0.1rem;
   }
   .sidebar.is-open {
     transform: translateX(0);
