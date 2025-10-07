@@ -355,7 +355,7 @@ fieldset { border: 1px solid var(--border-color); border-radius: 8px; margin-bot
 legend { font-weight: bold; padding: 0 0.5rem; }
 .form-row { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 1rem; }
 .form-row > .form-group { flex: 1; min-width: 250px; }
-.dynamic-section { border-left: 3px solid var(--color-primary); padding-left: 1.5rem; margin-top: 1.5rem; margin-bottom: 1.5rem; }
+.dynamic-section { border-left: 3px solid var(--color-primary); padding-left: 1.0rem; margin-top: 1.5rem; margin-bottom: 1.5rem; margin-left: -1.0rem;}
 .checkbox-group { align-items: center; gap: 1.5rem; padding-top: 1rem; }
 .checkbox-group label { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0; }
 .dynamic-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }

@@ -29,7 +29,9 @@
       </div>
     </div>
 
-    <div class="table-responsive-wrapper" v-if="filteredItems.length > 0">
+    <div v-if="loading" class="loading-message">Carregando cidades...</div>
+
+    <div class="table-responsive-wrapper" v-else-if="filteredItems.length > 0">
       <table>
         <thead>
           <tr>
@@ -74,6 +76,7 @@
         </tbody>
       </table>
     </div>
+    
     <p v-else class="no-results-message">Nenhuma cidade encontrada para o filtro selecionado.</p>
   </div>
 </template>
@@ -88,6 +91,7 @@ const items = ref([]);
 const seccionais = ref([]);
 const newItem = reactive({ nome: '', seccionalId: null });
 const selectedSeccionalFilter = ref(null);
+const loading = ref(true); // <-- MUDANÇA: Adicionado estado de loading
 
 const CIDADES_API_ENDPOINT = '/admin/cidades';
 const OPTIONS_API_ENDPOINT = '/form-options';
@@ -120,6 +124,7 @@ const getSeccionalNome = (seccionalId) => {
 };
 
 const fetchItems = async () => {
+  loading.value = true; // <-- MUDANÇA: Gerencia estado de loading
   try {
     const [cidadesRes, optionsRes] = await Promise.all([
       apiClient.get(CIDADES_API_ENDPOINT),
@@ -129,6 +134,8 @@ const fetchItems = async () => {
     seccionais.value = optionsRes.data.seccionais;
   } catch (err) {
     notificationStore.showNotification({ message: "Falha ao carregar os dados." });
+  } finally {
+    loading.value = false; // <-- MUDANÇA: Gerencia estado de loading
   }
 };
 
@@ -194,19 +201,19 @@ onMounted(fetchItems);
 <style scoped>
 
 .col-nome {
-  width: 35%; /* Faz a coluna 'Nome' ocupar 60% do espaço da tabela */
+  width: 35%;
 }
 
 .col-status {
-  width: 15%; /* Faz a coluna 'Status' ocupar 20% do espaço da tabela */
+  width: 15%;
 }
 
 .col-seccional {
-  width: 15%; /* Faz a coluna 'Seccional' ocupar 20% do espaço da tabela */
+  width: 15%;
 }
 
 .col-acoes {
-  width: 35%; /* Faz a coluna 'Ações' ocupar 20% do espaço da tabela */
+  width: 35%;
 }
 
 </style>

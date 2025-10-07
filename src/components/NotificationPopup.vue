@@ -2,7 +2,7 @@
   <Transition name="fade">
     <div v-if="visible" :class="['notification-popup', type]">
       <div class="notification-content">
-        <span class="icon">{{ type === 'success' ? '✓' : '✗' }}</span>
+        <span class="icon">{{ iconSymbol }}</span>
         <p>{{ message }}</p>
       </div>
       <button @click="notificationStore.hideNotification()" class="close-btn">&times;</button>
@@ -11,12 +11,26 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'; // Importa 'computed'
 import { storeToRefs } from 'pinia';
 import { useNotificationStore } from '../stores/notificationStore';
 
 const notificationStore = useNotificationStore();
 // Pega as propriedades da store como refs reativas
 const { message, type, visible } = storeToRefs(notificationStore);
+
+// Cria a computed property para o ícone
+const iconSymbol = computed(() => {
+  switch (type.value) {
+    case 'success':
+      return '✓';
+    case 'info':
+      return 'ℹ'; // Ícone para informação
+    case 'error':
+    default:
+      return '✗';
+  }
+});
 </script>
 
 <style scoped>
@@ -43,6 +57,10 @@ const { message, type, visible } = storeToRefs(notificationStore);
 
 .notification-popup.error {
   background-color: var(--color-danger);
+}
+
+.notification-popup.info {
+  background-color: var(--color-primary); /* NOVO ESTILO ADICIONADO */
 }
 
 .notification-content {

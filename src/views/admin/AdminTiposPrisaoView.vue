@@ -10,7 +10,9 @@
       <button @click="addItem" class="btn btn-primary">Adicionar Tipo</button>
     </div>
 
-    <div class="table-responsive-wrapper" v-if="items.length > 0">
+    <div v-if="loading" class="loading-message">Carregando tipos de prisão...</div>
+
+    <div class="table-responsive-wrapper" v-else-if="items.length > 0">
       <table>
         <thead>
           <tr>
@@ -43,6 +45,7 @@
         </tbody>
       </table>
     </div>
+    
     <p v-else class="no-results-message">Nenhum tipo de prisão cadastrado.</p>
   </div>
 </template>
@@ -55,6 +58,7 @@ import { useNotificationStore } from '../../stores/notificationStore';
 const notificationStore = useNotificationStore();
 const items = ref([]);
 const newItemName = ref('');
+const loading = ref(true); // <-- MUDANÇA: Adicionado estado de loading
 
 // --- Lógica de Edição Inline ---
 const editingItemId = ref(null);
@@ -74,11 +78,14 @@ const cancelEdit = () => {
 const API_ENDPOINT = '/admin/tipos-prisao';
 
 const fetchItems = async () => {
+  loading.value = true; // <-- MUDANÇA: Gerencia estado de loading
   try {
     const response = await apiClient.get(API_ENDPOINT);
     items.value = response.data;
   } catch (err) {
     notificationStore.showNotification({ message: "Falha ao carregar a lista." });
+  } finally {
+    loading.value = false; // <-- MUDANÇA: Gerencia estado de loading
   }
 };
 

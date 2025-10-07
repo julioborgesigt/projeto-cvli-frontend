@@ -10,7 +10,9 @@
       <button @click="addItem" class="btn btn-primary">Adicionar Facção</button>
     </div>
 
-    <div class="table-responsive-wrapper" v-if="items.length > 0">
+    <div v-if="loading" class="loading-message">Carregando facções...</div>
+
+    <div class="table-responsive-wrapper" v-else-if="items.length > 0">
       <table>
         <thead>
           <tr>
@@ -43,7 +45,9 @@
         </tbody>
       </table>
     </div>
+    
     <p v-else class="no-results-message">Nenhuma facção cadastrada.</p>
+
   </div>
 </template>
 
@@ -55,6 +59,7 @@ import { useNotificationStore } from '../../stores/notificationStore';
 const notificationStore = useNotificationStore();
 const items = ref([]);
 const newItemName = ref('');
+const loading = ref(true); // ESTADO DE CARREGAMENTO ADICIONADO
 
 // --- Lógica de Edição Inline ---
 const editingItemId = ref(null);
@@ -74,11 +79,14 @@ const cancelEdit = () => {
 const API_ENDPOINT = '/admin/faccoes';
 
 const fetchItems = async () => {
+  loading.value = true; // ATUALIZA O ESTADO DE CARREGAMENTO
   try {
     const response = await apiClient.get(API_ENDPOINT);
     items.value = response.data;
   } catch (err) {
     notificationStore.showNotification({ message: "Falha ao carregar a lista de facções." });
+  } finally {
+    loading.value = false; // ATUALIZA O ESTADO DE CARREGAMENTO
   }
 };
 
@@ -136,4 +144,3 @@ const toggleStatus = async (item) => {
 
 onMounted(fetchItems);
 </script>
-

@@ -23,9 +23,9 @@
       <button @click="addItem" class="btn btn-primary">Criar Usuário</button>
     </div>
 
- 
+    <div v-if="loading" class="loading-message">Carregando usuários...</div>
 
-    <div class="table-responsive-wrapper" v-if="items.length > 0">
+    <div class="table-responsive-wrapper" v-else-if="items.length > 0">
     <table>
       <thead>
         <tr>
@@ -47,6 +47,7 @@
       </tbody>
     </table>
     </div>
+
     <p v-else class="no-results-message">Nenhum usuário cadastrado.</p>
   </div>
 </template>
@@ -56,7 +57,6 @@ import { ref, reactive, onMounted, computed, watch } from 'vue';
 import apiClient from '../../api/api';
 import { useNotificationStore } from '../../stores/notificationStore';
 
-// SUGESTÃO 1: Endpoints como constantes relativas
 const USERS_API_ENDPOINT = '/admin/users';
 const OPTIONS_API_ENDPOINT = '/form-options';
 
@@ -65,6 +65,7 @@ const seccionais = ref([]);
 const cidades = ref([]);
 const newItem = reactive({ email: '', password: '', seccionalId: null, cidadeId: null });
 const notificationStore = useNotificationStore();
+const loading = ref(true); // <-- MUDANÇA: Adicionado estado de loading
 
 const filteredCidades = computed(() => {
   if (!newItem.seccionalId) return [];
@@ -73,8 +74,8 @@ const filteredCidades = computed(() => {
 watch(() => newItem.seccionalId, () => { newItem.cidadeId = null; });
 
 const fetchItems = async () => {
+  loading.value = true; // <-- MUDANÇA: Gerencia estado de loading
   try {
-    // SUGESTÃO 2: Usando Promise.all para chamadas paralelas
     const [usersRes, optionsRes] = await Promise.all([
       apiClient.get(USERS_API_ENDPOINT),
       apiClient.get(OPTIONS_API_ENDPOINT)
@@ -85,6 +86,8 @@ const fetchItems = async () => {
     cidades.value = optionsRes.data.cidades;
   } catch (err) {
     notificationStore.showNotification({ message: "Falha ao carregar os dados." });
+  } finally {
+    loading.value = false; // <-- MUDANÇA: Gerencia estado de loading
   }
 };
 
@@ -100,7 +103,6 @@ const addItem = async () => {
     notificationStore.showNotification({ message: 'Usuário criado com sucesso!', type: 'success' });
   } catch (err) {
     notificationStore.showNotification({ message: err.message || "Falha ao criar usuário." });
-    // SUGESTÃO 3: Limpa a senha em caso de erro
     newItem.password = ''; 
   }
 };
@@ -119,4 +121,3 @@ const deleteItem = async (id) => {
 
 onMounted(fetchItems);
 </script>
-

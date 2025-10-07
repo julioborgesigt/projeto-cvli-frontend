@@ -4,13 +4,13 @@ import { defineStore } from 'pinia';
 export const useNotificationStore = defineStore('notification', {
   state: () => ({
     message: '',
-    type: '', // 'success' ou 'error'
+    type: '', // 'success', 'error', ou 'info'
     visible: false,
     timeoutId: null, // Armazena o ID do timeout
   }),
 
   actions: {
-    showNotification({ message, type = 'error' }) {
+    showNotification({ message, type = 'error', timeout = 4000 }) {
       // Se já houver um pop-up, limpa o timeout anterior
       if (this.timeoutId) {
         clearTimeout(this.timeoutId);
@@ -20,10 +20,10 @@ export const useNotificationStore = defineStore('notification', {
       this.type = type;
       this.visible = true;
 
-      // Define um novo timeout para esconder o pop-up após 4 segundos
+      // Define um novo timeout para esconder o pop-up, usando o valor passado
       this.timeoutId = setTimeout(() => {
         this.hideNotification();
-      }, 4000);
+      }, timeout); // <-- A MUDANÇA ESTÁ AQUI
     },
 
     hideNotification() {

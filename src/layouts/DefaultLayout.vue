@@ -44,7 +44,11 @@
     </aside>
     
     <main class="main-content">
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <Transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </Transition>
+      </router-view>
     </main>
   </div>
 </template>
@@ -96,7 +100,7 @@ onMounted(() => {
   flex-shrink: 0;
   background-color: var(--surface-color);
   border-right: 1px solid var(--border-color);
-  padding: 1.5rem 1rem;
+  padding: 0.5rem 1rem;
   display: flex;
   flex-direction: column;
   transition: background-color 0.2s, border-color 0.2s;
@@ -150,7 +154,7 @@ onMounted(() => {
   padding-top: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.2rem;
 }
 .admin-section .admin-link {
   font-size: 1em;
@@ -179,5 +183,15 @@ onMounted(() => {
 }
 .theme-toggle-btn span {
   font-size: 1.2rem;
+}
+/* Adicione ao final do seu style.css */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

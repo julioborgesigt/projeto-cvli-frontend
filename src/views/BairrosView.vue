@@ -50,7 +50,7 @@
     
     <div v-if="loading" class="loading-message">Carregando bairros...</div>
   
-    <div class="table-responsive-wrapper" v-if="!loading && items.length > 0">
+    <div class="table-responsive-wrapper" v-else-if="!loading && items.length > 0">
     <table>
       <thead>
         <tr>
@@ -98,7 +98,7 @@ import { useNotificationStore } from '../stores/notificationStore';
 const authStore = useAuthStore();
 const notificationStore = useNotificationStore();
 const items = ref([]);
-const loading = ref(true);
+const loading = ref(true); // <-- MUDANÇA: Já existia, mas confirmando seu estado inicial
 
 const newItemName = ref('');
 const seccionais = ref([]);
@@ -151,7 +151,7 @@ const buildParams = (filtersObj) => {
 };
 
 const fetchItems = async () => {
-  loading.value = true;
+  loading.value = true; // <-- MUDANÇA: Gerencia estado de loading
   try {
     const config = {};
     if (authStore.isAdmin) {
@@ -162,7 +162,7 @@ const fetchItems = async () => {
   } catch (err) {
     notificationStore.showNotification({ message: "Falha ao carregar a lista de bairros." });
   } finally {
-    loading.value = false;
+    loading.value = false; // <-- MUDANÇA: Gerencia estado de loading
   }
 };
 
@@ -263,19 +263,19 @@ onMounted(() => {
 }
 
 .col-nome {
-  width: 25%; /* Faz a coluna 'Nome' ocupar 60% do espaço da tabela */
+  width: 25%;
 }
 
 .col-cidade {
-  width: 25%; /* Faz a coluna 'Cidades' ocupar 20% do espaço da tabela */
+  width: 25%;
 }
 
 .col-status {
-  width: 15%; /* Faz a coluna 'Status' ocupar 20% do espaço da tabela */
+  width: 15%;
 }
 
 .col-acoes {
-  width: 35%; /* Faz a coluna 'Ações' ocupar 20% do espaço da tabela */
+  width: 35%;
 }
 
 </style>

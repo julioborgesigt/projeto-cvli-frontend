@@ -27,8 +27,7 @@ function createWindow () {
   } else {
     // Em produção, carrega o arquivo index.html do build do Vite
     win.loadFile(path.join(__dirname, 'dist', 'index.html'));
-    // ADICIONE ESTA LINHA TEMPORARIAMENTE PARA DEPURAR
-    win.webContents.openDevTools(); 
+   
   }
 }
 
