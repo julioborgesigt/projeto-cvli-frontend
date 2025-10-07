@@ -2,6 +2,7 @@
   <div>
     <div class="page-header">
       <h1>Gerenciamento de Cidades</h1>
+      <p>Adicione, edite ou remova as cidades que podem ser selecionadas no sistema.</p>
     </div>
 
     <div class="form-container">
